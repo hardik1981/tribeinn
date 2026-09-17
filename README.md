@@ -1,4 +1,4 @@
-# TribeInn — approved V1 homepage foundation
+# TribeInn — V1 homepage foundation and Stay
 
 PHP 8.x, semantic HTML, CSS and vanilla JavaScript. No packages, build process or database.
 
@@ -18,7 +18,9 @@ The optional first argument selects another local origin, e.g. `php tools/check.
 
 ## Scope
 
-Only Home is fully implemented. `/stay`, `/experience`, `/guest-guide`, `/about`, `/check-dates` and `/faq-policies` use one minimal placeholder template. Stay anchors `#rio-de-goa` and `#why-stay-longer`, policy anchors `#faq` and `#policies`, and the contact anchor `#contact` resolve. Unknown routes return HTTP 404.
+Home and `/stay` are implemented. `/experience`, `/guest-guide`, `/about`, `/check-dates` and `/faq-policies` use one minimal placeholder template. Stay anchors `#rio-de-goa` and `#why-stay-longer`, policy anchors `#faq` and `#policies`, and the contact anchor `#contact` resolve. Unknown routes return HTTP 404.
+
+Open `/stay` to review the new page. Run `php tools/check-stay.php` with the local server running for combined Home + Stay checks. See `docs/STAY-REVIEW.md` for implementation details, exact changed files, asset sources and browser verification.
 
 Check Dates is not a live availability checker or a working enquiry form. No contacts, social accounts, policies, distances, prices or Wi-Fi specifications were invented. No booking database, iCal, payment integration or Journal was added.
 

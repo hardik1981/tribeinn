@@ -5,6 +5,7 @@ declare(strict_types=1);
 return [
     'the-beginning' => [
         'name' => 'The Beginning',
+        'stay_content' => 'the-beginning.php',
         'location' => 'Tata Housing Rio De Goa · Goa',
         'description' => 'A cosy home in Goa for travellers, remote workers, creators and anyone looking for a slower, sunnier pace of life.',
         'images' => [
