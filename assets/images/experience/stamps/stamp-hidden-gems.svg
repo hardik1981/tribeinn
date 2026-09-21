@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 512 512">
+<defs>
+  <filter id="rough"><feTurbulence type="fractalNoise" baseFrequency=".8" numOctaves="2" seed="7" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="1.4"/></filter>
+  <mask id="distress">
+    <rect width="512" height="512" fill="white"/>
+    <g fill="black" opacity=".42">
+      <circle cx="108" cy="132" r="3"/><circle cx="398" cy="111" r="2.5"/><circle cx="151" cy="370" r="3"/>
+      <circle cx="353" cy="384" r="2"/><circle cx="260" cy="91" r="2"/><circle cx="410" cy="300" r="3"/>
+      <path d="M92 245h24v3H92zM378 220h18v3h-18zM208 403h31v3h-31zM285 125h20v3h-20z"/>
+    </g>
+  </mask>
+</defs>
+<g mask="url(#distress)" filter="url(#rough)" opacity=".90">
+  <circle cx="256" cy="256" r="218" fill="none" stroke="#654583" stroke-width="10"/>
+  <circle cx="256" cy="256" r="198" fill="none" stroke="#654583" stroke-width="4"/>
+  <text x="256" y="108" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="44" font-weight="700" letter-spacing="7" fill="#654583">HIDDEN</text>
+  <text x="256" y="430" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="42" font-weight="700" letter-spacing="7" fill="#654583">GEMS</text>
+  <circle cx="92" cy="256" r="8" fill="#654583"/><circle cx="420" cy="256" r="8" fill="#654583"/>
+  
+        <rect x="155" y="205" width="205" height="140" rx="18" fill="none" stroke="#654583" stroke-width="12"/>
+        <path d="M195 205 L215 175 H300 L320 205" fill="none" stroke="#654583" stroke-width="12" stroke-linejoin="round"/>
+        <circle cx="258" cy="275" r="48" fill="none" stroke="#654583" stroke-width="12"/>
+        <circle cx="258" cy="275" r="19" fill="none" stroke="#654583" stroke-width="8"/>
+        <path d="M180 185 H210 M325 185 H350" stroke="#654583" stroke-width="10" stroke-linecap="round"/>
+        
+</g>
+</svg>

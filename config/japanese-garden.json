@@ -1,0 +1,33 @@
+{
+  "id": "japanese-garden",
+  "title": "Japanese Garden",
+  "category": "explore",
+  "location": "Goa",
+  "summary": "A quiet green pause above the sea — shaded paths, tropical foliage and wide coastal views.",
+  "images": [
+    {
+      "src": "assets/images/experience/japanese-garden/japanese-garden-01.webp",
+      "alt": "Entrance to the leafy Japanese Garden in Goa"
+    },
+    {
+      "src": "assets/images/experience/japanese-garden/japanese-garden-02.webp",
+      "alt": "Rain-washed pathway beneath dense greenery at Japanese Garden"
+    },
+    {
+      "src": "assets/images/experience/japanese-garden/japanese-garden-03.webp",
+      "alt": "Open garden framed by palms and tropical trees"
+    },
+    {
+      "src": "assets/images/experience/japanese-garden/japanese-garden-04.webp",
+      "alt": "Sea-view lookout from Japanese Garden"
+    },
+    {
+      "src": "assets/images/experience/japanese-garden/japanese-garden-05.webp",
+      "alt": "Wide Arabian Sea view from the garden cliffs"
+    },
+    {
+      "src": "assets/images/experience/japanese-garden/japanese-garden-06.webp",
+      "alt": "Rocky coastline and waves below Japanese Garden"
+    }
+  ]
+}

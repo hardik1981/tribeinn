@@ -7,7 +7,7 @@ if ($base !== '' && str_starts_with($path, $base . '/')) { $path = substr($path,
 $file = realpath(__DIR__ . $path);
 $assets = realpath(__DIR__ . '/assets');
 if ($file && is_file($file) && str_starts_with($file, $assets . DIRECTORY_SEPARATOR)) {
-    $mime = ['css' => 'text/css', 'js' => 'text/javascript', 'webp' => 'image/webp', 'svg' => 'image/svg+xml'];
+    $mime = ['css' => 'text/css', 'js' => 'text/javascript', 'webp' => 'image/webp', 'png' => 'image/png', 'svg' => 'image/svg+xml'];
     $extension = pathinfo($file, PATHINFO_EXTENSION);
     if (isset($mime[$extension])) {
         header('Content-Type: ' . $mime[$extension]);

@@ -1,0 +1,169 @@
+{
+  "property": "The Beginning",
+  "experience_count": 5,
+  "asset_root": "assets/images/experience",
+  "experiences": [
+    {
+      "id": "exp-001",
+      "slug": "morjim-beach",
+      "title": "Morjim Beach",
+      "category": "Beach & Explore",
+      "tags": [
+        "Beach",
+        "Sunset",
+        "Explore Goa",
+        "Day Out"
+      ],
+      "drive_time": "~1 hr 16 min",
+      "location": "Morjim, Goa",
+      "maps_url": "https://maps.app.goo.gl/PSvworhNSqDVQwEX9?g_st=ac",
+      "tribeinn_note": "A longer drive, but this is the kind of Goa day you make time for.",
+      "short_description": "A wide, atmospheric beach for a slower Goa outing — open sand, dramatic skies, rocks and sunset light.",
+      "story": "Morjim is one of the experiences that takes you beyond the immediate neighbourhood. Make an outing of it: arrive with time to walk, watch the changing sky and stay into sunset. The original photographs capture the beach as we experienced it — quiet stretches of sand, dogs resting near the shore, green-covered rocks and dramatic monsoon-season skies.",
+      "our_pick": "Go for the late-afternoon light and stay for sunset.",
+      "best_time": "Late afternoon → sunset",
+      "combine_with": "",
+      "images": [
+        "assets/images/experience/morjim-beach/01-road-to-morjim.webp",
+        "assets/images/experience/morjim-beach/02-sunset-palms.webp",
+        "assets/images/experience/morjim-beach/03-beach-dogs.webp",
+        "assets/images/experience/morjim-beach/04-green-rocks.webp",
+        "assets/images/experience/morjim-beach/05-rocky-shore.webp",
+        "assets/images/experience/morjim-beach/06-sunset-reflection.webp",
+        "assets/images/experience/morjim-beach/07-wide-beach.webp"
+      ],
+      "featured_image": "assets/images/experience/morjim-beach/06-sunset-reflection.webp",
+      "status": "Ready",
+      "featured": true,
+      "sort_order": 1
+    },
+    {
+      "id": "exp-002",
+      "slug": "bridge-n-tunnel",
+      "title": "Bridge N Tunnel",
+      "category": "Eat & Unwind",
+      "tags": [
+        "Nearby",
+        "Waterfront",
+        "Food",
+        "Evening",
+        "Hidden Find"
+      ],
+      "drive_time": "~9 min",
+      "location": "Near Chicalim / Rio De Goa",
+      "maps_url": "https://maps.app.goo.gl/MQ8MpqccMcSr9ADC9",
+      "tribeinn_note": "Nine minutes away. Stay until the other side of the water lights up.",
+      "short_description": "A nearby waterfront escape for food, a slow evening and views across the water.",
+      "story": "Bridge N Tunnel is close enough to feel like a neighbourhood discovery rather than an itinerary stop. Tables sit beside the water among palms, weathered timber and driftwood. Come toward the end of the afternoon, order something and let the view change. After sunset, lights appear across the opposite bank and stretch into reflections over the dark water.",
+      "our_pick": "Arrive before dusk and stay into the evening.",
+      "best_time": "Late afternoon → evening",
+      "combine_with": "",
+      "images": [
+        "assets/images/experience/bridge-n-tunnel/01-waterfront-driftwood.webp",
+        "assets/images/experience/bridge-n-tunnel/02-waterline.webp",
+        "assets/images/experience/bridge-n-tunnel/03-palms-restaurant.webp",
+        "assets/images/experience/bridge-n-tunnel/04-night-waterfront.webp",
+        "assets/images/experience/bridge-n-tunnel/05-night-driftwood.webp",
+        "assets/images/experience/bridge-n-tunnel/06-night-shore.webp",
+        "assets/images/experience/bridge-n-tunnel/07-waterfront-wall.webp"
+      ],
+      "featured_image": "assets/images/experience/bridge-n-tunnel/01-waterfront-driftwood.webp",
+      "status": "Ready",
+      "featured": true,
+      "sort_order": 2
+    },
+    {
+      "id": "exp-003",
+      "slug": "filomenas-kitchen",
+      "title": "Filomena's Kitchen",
+      "category": "Eat & Drink",
+      "tags": [
+        "Food",
+        "Local Find",
+        "Bogmalo",
+        "Cocktail",
+        "Goli Soda"
+      ],
+      "drive_time": "~19 min",
+      "location": "Bogmalo, Goa",
+      "maps_url": "https://maps.app.goo.gl/9jzgkpaVxfCiP4zu8",
+      "tribeinn_note": "The food is excellent. Try the Goan Boom Box — and don't leave without a ginger Goli Soda.",
+      "short_description": "A colourful, relaxed Bogmalo restaurant with excellent food and two TribeInn picks: the Goan Boom Box cocktail and strong ginger Goli Soda.",
+      "story": "Sometimes an Experience recommendation does not need to be complicated. We went to Filomena's Kitchen for the food and came away remembering the drinks too. The place has an easy Goan character with bright blue details, warm lighting and a colourful bar. Our cocktail pick is the Goan Boom Box. Then try the ginger Goli Soda, served in an old-school marble bottle — it has a proper ginger kick. Pair the meal with time at nearby Bogmalo Beach.",
+      "our_pick": "Goan Boom Box cocktail + ginger Goli Soda in the marble bottle.",
+      "best_time": "Lunch or evening",
+      "combine_with": "Bogmalo Beach",
+      "images": [
+        "assets/images/experience/filomenas-kitchen/01-goli-soda.webp",
+        "assets/images/experience/filomenas-kitchen/02-bar.webp",
+        "assets/images/experience/filomenas-kitchen/03-entrance.webp"
+      ],
+      "featured_image": "assets/images/experience/filomenas-kitchen/03-entrance.webp",
+      "status": "Ready",
+      "featured": true,
+      "sort_order": 3
+    },
+    {
+      "id": "exp-004",
+      "slug": "japanese-garden",
+      "title": "Japanese Garden",
+      "category": "Slow Goa / Outdoors",
+      "tags": [
+        "Slow Goa",
+        "Outdoors",
+        "Sea Views",
+        "Vasco",
+        "Monsoon"
+      ],
+      "drive_time": "~23 min two-wheeler / ~24 min car",
+      "location": "Vasco da Gama, Goa",
+      "maps_url": "",
+      "tribeinn_note": "Go when you don't have anywhere else to be.",
+      "short_description": "",
+      "story": "",
+      "our_pick": "",
+      "best_time": "",
+      "combine_with": "",
+      "images": [],
+      "featured_image": "",
+      "status": "Metadata ready; image files were not available in the active runtime when this package was built.",
+      "featured": true,
+      "sort_order": 4,
+      "visited": "September 2026"
+    },
+    {
+      "id": "exp-005",
+      "slug": "baowich",
+      "title": "Bao-Wich",
+      "category": "Eat & Drink",
+      "tags": [
+        "Food",
+        "Local Find",
+        "Garden",
+        "Goa"
+      ],
+      "drive_time": "",
+      "location": "",
+      "maps_url": "",
+      "tribeinn_note": "",
+      "short_description": "A leafy, informal Goa food stop with a garden setting, characterful dining spaces and comforting plates.",
+      "story": "",
+      "our_pick": "",
+      "best_time": "",
+      "combine_with": "",
+      "images": [
+        "assets/images/experience/baowich/01-interior.webp",
+        "assets/images/experience/baowich/02-garden-entry.webp",
+        "assets/images/experience/baowich/03-courtyard.webp",
+        "assets/images/experience/baowich/04-tree-and-bamboo.webp",
+        "assets/images/experience/baowich/05-main-course.webp",
+        "assets/images/experience/baowich/06-dessert.webp",
+        "assets/images/experience/baowich/07-dining-room.webp"
+      ],
+      "featured_image": "assets/images/experience/baowich/07-dining-room.webp",
+      "status": "Assets ready; location/drive time/maps/copy can be completed in main branch.",
+      "featured": true,
+      "sort_order": 5
+    }
+  ]
+}
