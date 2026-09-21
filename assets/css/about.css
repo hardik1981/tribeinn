@@ -1,0 +1,36 @@
+/* About-only editorial composition. Shared site chrome stays unchanged. */
+.about-page { background: var(--tribe-white); }
+.about-hero { position: relative; height: clamp(280px, 27vw, 390px); overflow: hidden; }
+.about-hero > img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 58%; }
+.about-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, #14263294, #14263212 65%); }
+.about-hero-copy { position: absolute; inset: 0; z-index: 1; display: flex; align-items: center; }
+.about-hero h1 { color: var(--tribe-white); font: 400 clamp(58px, 6.5vw, 94px)/.98 Georgia, serif; letter-spacing: -3px; }
+.about-story { max-width: 1180px; padding-block: 64px 80px; }
+.about-chapter { display: grid; grid-template-columns: 1.15fr 1fr; align-items: center; gap: 64px; margin-bottom: 64px; }
+.about-copy h2 { font: 400 clamp(27px, 2.5vw, 35px)/1.18 Georgia, serif; letter-spacing: -.8px; margin-bottom: 18px; }
+.about-copy h2::before { content: ''; display: block; width: 38px; height: 1px; background: var(--tribe-green); margin-bottom: 17px; }
+.about-copy p { color: #55594f; font-size: 15px; line-height: 1.75; margin-top: 13px; }
+.about-copy strong { color: var(--tribe-green); font-weight: 600; }
+.about-photo img { border-radius: 3px; }
+.about-chapter--reverse { grid-template-columns: 1fr 1.15fr; }
+.about-chapter--reverse .about-copy { grid-column: 2; grid-row: 1; }
+.about-chapter--reverse .about-photo { grid-column: 1; grid-row: 1; }
+.about-closing { border-top: 1px solid #b8beb0; padding-top: 54px; display: grid; grid-template-columns: 1.15fr 1fr; align-items: center; gap: 64px; }
+.about-closing h2 { color: var(--tribe-green); font: italic 400 clamp(42px, 4.8vw, 65px)/1.17 Georgia, serif; letter-spacing: -2px; }
+.about-closing p { font-size: 15px; line-height: 1.85; color: #55594f; }
+.about-closing strong { font-weight: 600; color: var(--tribe-green); }
+@media (max-width: 1000px) {
+    .about-chapter, .about-closing { gap: 36px; }
+}
+@media (max-width: 800px) {
+    .about-hero { height: 280px; }
+    .about-hero > img { object-position: 50% 57%; }
+    .about-hero h1 { font-size: 62px; letter-spacing: -2px; }
+    .about-story { padding-block: 42px 56px; }
+    .about-chapter, .about-chapter--reverse, .about-closing { grid-template-columns: 1fr; gap: 28px; }
+    .about-chapter { margin-bottom: 48px; }
+    .about-chapter--reverse .about-copy, .about-chapter--reverse .about-photo { grid-column: auto; grid-row: auto; }
+    .about-copy h2 { font-size: 30px; }
+    .about-closing { padding-top: 36px; }
+    .about-closing h2 { font-size: clamp(40px, 10vw, 60px); }
+}

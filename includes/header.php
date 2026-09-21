@@ -23,6 +23,7 @@
     <script src="<?= e(url('assets/js/experience.js')) ?>" defer></script>
     <?php endif; ?>
     <?php if ($isInner): ?><link rel="stylesheet" href="<?= e(url('assets/css/inner.css')) ?>"><?php endif; ?>
+    <?php if ($route === 'about'): ?><link rel="stylesheet" href="<?= e(url('assets/css/about.css')) ?>"><?php endif; ?>
     <?php if ($route === 'stay'): ?>
     <link rel="stylesheet" href="<?= e(url('assets/css/stay.css')) ?>">
     <script src="<?= e(url('assets/js/lightbox.js')) ?>" defer></script>

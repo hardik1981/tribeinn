@@ -49,6 +49,7 @@ if ($route === 'guest-guide') {
 require __DIR__ . match (true) {
     $route === '' => '/pages/home.php',
     $route === 'stay' => '/pages/stay.php',
+    $route === 'about' => '/pages/about.php',
     $route === 'check-dates' => '/pages/check-dates.php',
     $route === 'guest-guide' => '/pages/guest-guide.php',
     $isExperience && $found => $experience ? '/pages/experience-story.php' : '/pages/experience.php',
