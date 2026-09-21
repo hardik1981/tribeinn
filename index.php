@@ -7,6 +7,15 @@ if ($basePath !== '' && str_starts_with($path, $basePath . '/')) {
 }
 $route = trim($path, '/');
 if ($route === 'index.php') { $route = ''; }
+if ($route === 'check-dates/request') { require __DIR__ . '/includes/enquiry-handler.php'; }
+if ($route === 'check-dates') {
+    require __DIR__ . '/includes/enquiry-service.php';
+    $enquiryConfig = require __DIR__ . '/config/enquiry.php';
+    enquirySession();
+    $enquiryTokens = enquiryTokens();
+    $enquiryToday = (new DateTimeImmutable('today', new DateTimeZone($enquiryConfig['timezone'])))->format('Y-m-d');
+    $whatsappNumber = preg_match('/^[1-9][0-9]{6,14}$/', $enquiryConfig['whatsapp_number']) ? $enquiryConfig['whatsapp_number'] : '';
+}
 $found = array_key_exists($route, $routes);
 $isExperience = $route === 'experience' || str_starts_with($route, 'experience/');
 $experience = null;
@@ -31,6 +40,7 @@ require __DIR__ . '/includes/header.php';
 require __DIR__ . match (true) {
     $route === '' => '/pages/home.php',
     $route === 'stay' => '/pages/stay.php',
+    $route === 'check-dates' => '/pages/check-dates.php',
     $isExperience && $found => $experience ? '/pages/experience-story.php' : '/pages/experience.php',
     default => '/pages/placeholder.php',
 };

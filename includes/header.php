@@ -10,6 +10,10 @@
     <link rel="icon" type="image/svg+xml" href="<?= e(url('assets/images/favicon.svg')) ?>">
     <link rel="stylesheet" href="<?= e(url('assets/css/site.css')) ?>">
     <script src="<?= e(url('assets/js/site.js')) ?>" defer></script>
+    <?php if ($route === 'check-dates'): ?>
+    <link rel="stylesheet" href="<?= e(url('assets/css/check-dates.css')) ?>">
+    <script src="<?= e(url('assets/js/check-dates.js')) ?>" defer></script>
+    <?php endif; ?>
     <?php if ($isExperience && $found): ?>
     <link rel="stylesheet" href="<?= e(url('assets/css/experience.css')) ?>">
     <script src="<?= e(url('assets/js/experience.js')) ?>" defer></script>
