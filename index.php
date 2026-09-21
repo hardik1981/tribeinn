@@ -37,10 +37,20 @@ if ($route === 'stay') {
     require __DIR__ . '/includes/stay-gallery.php';
 }
 require __DIR__ . '/includes/header.php';
+if ($route === 'guest-guide') {
+    require __DIR__ . '/includes/GuestGuideRepository.php';
+    require __DIR__ . '/includes/guest-guide-components.php';
+    $guideRepository = new GuestGuideRepository(__DIR__ . '/config/guest-guide.php');
+    $guideTopics = $guideRepository->topics();
+    $guideEntries = $guideRepository->all();
+    $guideContact = require __DIR__ . '/config/enquiry.php';
+    $guideWhatsapp = preg_match('/^[1-9][0-9]{6,14}$/', $guideContact['whatsapp_number']) ? $guideContact['whatsapp_number'] : '';
+}
 require __DIR__ . match (true) {
     $route === '' => '/pages/home.php',
     $route === 'stay' => '/pages/stay.php',
     $route === 'check-dates' => '/pages/check-dates.php',
+    $route === 'guest-guide' => '/pages/guest-guide.php',
     $isExperience && $found => $experience ? '/pages/experience-story.php' : '/pages/experience.php',
     default => '/pages/placeholder.php',
 };
