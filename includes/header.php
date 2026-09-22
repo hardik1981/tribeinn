@@ -10,6 +10,10 @@
     <link rel="icon" type="image/svg+xml" href="<?= e(url('assets/images/favicon.svg')) ?>">
     <link rel="stylesheet" href="<?= e(url('assets/css/site.css')) ?>">
     <script src="<?= e(url('assets/js/site.js')) ?>" defer></script>
+    <?php if (in_array($route, ['check-dates', 'admin/calendar'], true)): ?>
+    <link rel="stylesheet" href="<?= e(url('assets/css/availability.css')) ?>">
+    <script src="<?= e(url('assets/js/availability.js')) ?>" defer></script>
+    <?php endif; ?>
     <?php if ($route === 'guest-guide'): ?>
     <link rel="stylesheet" href="<?= e(url('assets/css/guest-guide.css')) ?>">
     <script src="<?= e(url('assets/js/guest-guide.js')) ?>" defer></script>

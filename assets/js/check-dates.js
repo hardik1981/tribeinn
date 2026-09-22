@@ -77,9 +77,13 @@ if (typeof module !== 'undefined') module.exports = { tribeWhatsAppMessage, trib
     }
     form.elements.checkin.addEventListener('change', updateCheckout);
     continueButton.disabled = false;
-    form.addEventListener('submit', event => {
+    form.addEventListener('submit', async event => {
         event.preventDefault();
         if (busy || sent || !validate()) return;
+        busy = true;
+        const available = await (window.tribeAvailability?.verify() ?? Promise.resolve(true));
+        busy = false;
+        if (!available) return;
         const data = values();
         replyEmail.value = data.email;
         replyError.textContent = '';
@@ -114,8 +118,12 @@ if (typeof module !== 'undefined') module.exports = { tribeWhatsAppMessage, trib
     });
     replyEmail.addEventListener('input', () => { syncReplyEmail(); replyError.textContent = ''; replyEmail.removeAttribute('aria-invalid'); });
     replyEmail.addEventListener('change', syncReplyEmail);
-    whatsappChoice.addEventListener('click', () => {
+    whatsappChoice.addEventListener('click', async () => {
         if (busy) return;
+        busy = true;
+        const available = await (window.tribeAvailability?.verify() ?? Promise.resolve(true));
+        busy = false;
+        if (!available) { dialog.close(); return; }
         if (!emailForm.hidden) syncReplyEmail();
         emailForm.hidden = true;
         const link = tribeWhatsAppUrl(form.dataset.whatsapp, values(), form.dataset.property);
@@ -126,10 +134,19 @@ if (typeof module !== 'undefined') module.exports = { tribeWhatsAppMessage, trib
         }
         window.open(link, '_blank', 'noopener,noreferrer');
         whatsappStatus.textContent = 'Continue in WhatsApp and press Send there. Opening WhatsApp does not send your request.';
+        // Async availability checks can consume the browser's popup gesture.
+        const fallback = document.createElement('a');
+        fallback.href = link; fallback.target = '_blank'; fallback.rel = 'noopener noreferrer';
+        fallback.className = 'text-link'; fallback.textContent = 'Open WhatsApp →';
+        whatsappStatus.append(document.createElement('br'), fallback);
     });
     emailForm.addEventListener('submit', async event => {
         event.preventDefault();
         if (busy || sent) return;
+        busy = true;
+        const available = await (window.tribeAvailability?.verify() ?? Promise.resolve(true));
+        busy = false;
+        if (!available) { dialog.close(); return; }
         if (!replyEmail.value.trim() || !replyEmail.validity.valid) {
             replyError.textContent = 'Please enter a valid email so we can reply.';
             replyEmail.setAttribute('aria-invalid', 'true'); replyEmail.focus(); return;
@@ -165,6 +182,11 @@ if (typeof module !== 'undefined') module.exports = { tribeWhatsAppMessage, trib
             if (result.preview === true) {
                 const notice = document.querySelector('#dates-preview-notice');
                 notice.textContent = 'Local test preview only — no email was sent.'; notice.hidden = false;
+            }
+            if (result.availability_unverified === true) {
+                const warning = document.createElement('p');
+                warning.textContent = 'Availability could not be verified online. We’ll check your dates personally before confirming.';
+                success.append(warning);
             }
             dialog.close();
             success.focus();

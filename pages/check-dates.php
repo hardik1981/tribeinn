@@ -11,6 +11,7 @@
                 <input type="hidden" name="csrf" value="<?= e($enquiryTokens['csrf']) ?>"><input type="hidden" name="request_id" value="<?= e($enquiryTokens['request_id']) ?>"><input type="hidden" name="channel" value="email">
                 <div class="dates-trap" aria-hidden="true"><label>Leave this field empty<input name="website" tabindex="-1" autocomplete="off"></label></div>
                 <div id="dates-errors" class="dates-error-summary" role="alert" tabindex="-1" hidden></div>
+                <div data-calendar data-api="<?= e(url('api/availability')) ?>" data-unit="<?= e((require __DIR__ . '/../config/availability.php')['unit']) ?>" data-today="<?= e($enquiryToday) ?>" data-start="#checkin" data-end="#checkout"></div>
                 <div class="dates-fields">
                     <div class="dates-field"><label for="checkin">Check-in</label><input type="date" id="checkin" name="checkin" min="<?= e($enquiryToday) ?>" required aria-describedby="error-checkin"><span class="dates-field-error" id="error-checkin"></span></div>
                     <div class="dates-field"><label for="checkout">Check-out</label><input type="date" id="checkout" name="checkout" min="<?= e($enquiryToday) ?>" required aria-describedby="error-checkout"><span class="dates-field-error" id="error-checkout"></span></div>

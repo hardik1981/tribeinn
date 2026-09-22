@@ -7,6 +7,7 @@ if ($basePath !== '' && str_starts_with($path, $basePath . '/')) {
 }
 $route = trim($path, '/');
 if ($route === 'index.php') { $route = ''; }
+if (in_array($route, ['api/availability', 'admin/calendar'], true)) { require __DIR__ . '/includes/availability/controller.php'; }
 if ($route === 'check-dates/request') { require __DIR__ . '/includes/enquiry-handler.php'; }
 if ($route === 'check-dates') {
     require __DIR__ . '/includes/enquiry-service.php';

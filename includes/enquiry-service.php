@@ -74,7 +74,7 @@ function enquirySend(array $data, array $config, string $property): bool {
 }
 
 /** The session remains locked through transport acceptance, preventing concurrent duplicates. */
-function enquirySubmit(array $input, array &$session, array $config, string $property, callable $send): array {
+function enquirySubmit(array $input, array &$session, array $config, string $property, callable $send, ?callable $availabilityCheck = null): array {
     $csrf = $input['csrf'] ?? null;
     $id = $input['request_id'] ?? null;
     if (!is_string($csrf) || !is_string($id) || !isset($session['enquiry_csrf'], $session['enquiry_requests'][$id]) || !hash_equals($session['enquiry_csrf'], $csrf) || $session['enquiry_requests'][$id]['created'] < time() - 86400) {
@@ -85,6 +85,11 @@ function enquirySubmit(array $input, array &$session, array $config, string $pro
     if (!empty($input['website'])) return [422, ['ok'=>false,'message'=>'We couldn’t process this request. Please contact us by email.']];
     [$data, $errors] = enquiryValidate($input, $config);
     if ($errors) return [422, ['ok'=>false,'message'=>'Please check the highlighted details.','errors'=>$errors]];
+    // Recheck on the server immediately before sending. No reservation is created.
+    if ($availabilityCheck) {
+        $availabilityError = $availabilityCheck($data['checkin'], $data['checkout']);
+        if ($availabilityError) return [422, ['ok'=>false, 'message'=>$availabilityError, 'errors'=>['checkout'=>$availabilityError]]];
+    }
     $attempts = array_values(array_filter($session['enquiry_attempts'] ?? [], fn($time) => $time > time() - 900));
     if (count($attempts) >= 5) return [429, ['ok'=>false,'message'=>'Please wait a little before trying again, or email contact@tribeinn.com directly.']];
     $attempts[] = time();
