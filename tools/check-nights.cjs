@@ -4,6 +4,28 @@ const dates = require('../assets/js/availability.js');
 const {tribeRequestSummary, tribeWhatsAppMessage} = require('../assets/js/check-dates.js');
 const cases = [['2026-09-28','2026-09-29',1],['2026-09-28','2026-09-30',2],['2026-09-30','2026-10-03',3],['2026-12-31','2027-01-02',2],['2028-02-28','2028-03-01',2],['2026-03-07','2026-03-09',2],['2026-10-31','2026-11-02',2]];
 let checks = 0;
+const displayCases = [
+    ['2026-10-08','2026-10-10','8 Oct 2026','10 Oct 2026'],
+    ['2026-09-30','2026-10-03','30 Sep 2026','3 Oct 2026'],
+    ['2026-12-31','2027-01-01','31 Dec 2026','1 Jan 2027'],
+    ['2028-02-29','2028-03-01','29 Feb 2028','1 Mar 2028']
+];
+for (const timezone of ['UTC','Asia/Kolkata','America/New_York','Europe/London']) {
+    process.env.TZ = timezone;
+    for (const [checkin,checkout,arrival,departure] of displayCases) {
+        const data = {checkin,checkout,adults:'1',children:'1',name:'Test',email:'guest@example.com',phone:'',purpose:'Workation',message:''};
+        const before = JSON.stringify(data);
+        const whatsapp = tribeWhatsAppMessage(data,'The Beginning');
+        const email = execFileSync('php',['-r',"require 'includes/enquiry-service.php'; echo enquiryMessage(json_decode(stream_get_contents(STDIN),true),'The Beginning');"],{cwd:require('node:path').resolve(__dirname,'..'),input:before,encoding:'utf8'});
+        for (const body of [whatsapp,email]) {
+            assert.ok(body.includes(`Check-in: ${arrival}\n`));
+            assert.ok(body.includes(`Check-out: ${departure}\n`));
+            assert.ok(!body.includes(`Check-in: ${checkin}`));
+            checks+=3;
+        }
+        assert.equal(JSON.stringify(data),before); checks++;
+    }
+}
 for (const adults of ['1','2','3']) for (const children of ['0','1','2','3']) {
     const data = {checkin:'2026-09-28',checkout:'2026-09-30',adults,children};
     const adultText = `${adults} ${adults==='1'?'adult':'adults'}`;

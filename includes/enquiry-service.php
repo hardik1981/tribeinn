@@ -54,12 +54,16 @@ function enquiryValidate(array $input, array $config, ?DateTimeImmutable $today 
     return [$data, $errors];
 }
 
+function enquiryDisplayDate(string $value): string {
+    return (new DateTimeImmutable($value, new DateTimeZone('UTC')))->format('j M Y');
+}
+
 function enquiryMessage(array $data, string $property): string {
     return implode("\n", [
         'TribeInn date request', '', 'Property: ' . $property,
         'Name: ' . $data['name'], 'Email: ' . $data['email'],
         ...($data['phone'] !== '' ? ['Phone: ' . $data['phone']] : []),
-        '', 'Check-in: ' . $data['checkin'], 'Check-out: ' . $data['checkout'],
+        '', 'Check-in: ' . enquiryDisplayDate($data['checkin']), 'Check-out: ' . enquiryDisplayDate($data['checkout']),
         'Number of nights: ' . AvailabilityDates::nights($data['checkin'], $data['checkout']),
         ((int)$data['adults'] === 1 ? 'Adult: ' : 'Adults: ') . $data['adults'], ((int)$data['children'] === 1 ? 'Child: ' : 'Children: ') . $data['children'],
         'Purpose: ' . $data['purpose'], '', 'Message:', $data['message'] ?: '(No additional message)',

@@ -1,4 +1,7 @@
 Options -Indexes
+SetEnv TRIBE_MAIL_TRANSPORT mail
+SetEnv TRIBE_MAIL_FROM contact@tribeinn.com
+SetEnv TRIBE_WHATSAPP_NUMBER 918169440389
 DirectoryIndex index.php
 RewriteEngine On
 RewriteRule ^(?:includes|config|pages|docs|tools|database|source-assets|var)(?:/|$) - [F,L]

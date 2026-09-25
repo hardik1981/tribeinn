@@ -6,10 +6,13 @@ function tribeRequestSummary(data, property) {
     const year = data.checkin.slice(0,4) !== data.checkout.slice(0,4);
     return [`${property} · ${stayDates.date(data.checkin,'short',year)} → ${stayDates.date(data.checkout,'short',year)} · ${stayDates.label(data.checkin,data.checkout)}`, tribeGuestCounts(data).join(' · ')];
 }
+function tribeEnquiryDate(value) {
+    return stayDates.date(value, 'short', true).replace(/\bSept\b/, 'Sep');
+}
 function tribeWhatsAppMessage(data, property) {
     return [
         `Hi TribeInn, I'd like to check dates for ${property}.`, '',
-        `Name: ${data.name}`, `Check-in: ${data.checkin}`, `Check-out: ${data.checkout}`,
+        `Name: ${data.name}`, `Check-in: ${tribeEnquiryDate(data.checkin)}`, `Check-out: ${tribeEnquiryDate(data.checkout)}`,
         `Number of nights: ${stayDates.nights(data.checkin,data.checkout)}`,
         `Guests: ${tribeGuestCounts(data).join(', ')}`, `Purpose: ${data.purpose}`,
         ...(data.email ? [`Email: ${data.email}`] : []), ...(data.phone ? [`Phone: ${data.phone}`] : []),
