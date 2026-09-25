@@ -1,5 +1,33 @@
+/* Calendar-day ordinals, independent of timezone and daylight-saving changes. */
+const tribeStayDates = {
+    ordinal(value) {
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return NaN;
+        let [year, month, day] = value.split('-').map(Number);
+        const leap = year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+        if (year < 1000 || month < 1 || month > 12 || day < 1 || day > [31,leap?29:28,31,30,31,30,31,31,30,31,30,31][month-1]) return NaN;
+        year -= month <= 2 ? 1 : 0;
+        const era = Math.floor(year/400), y = year-era*400;
+        return era*146097 + y*365 + Math.floor(y/4) - Math.floor(y/100) + Math.floor((153*(month+(month>2?-3:9))+2)/5) + day-1;
+    },
+    nights(start, end) {
+        const count = this.ordinal(end)-this.ordinal(start);
+        return Number.isFinite(count) && count > 0 ? count : null;
+    },
+    label(start, end) {
+        const count = this.nights(start,end);
+        return count === null ? '' : `${count} ${count === 1 ? 'night' : 'nights'}`;
+    },
+    date(value, month='short', year=false) {
+        return new Date(`${value}T12:00:00Z`).toLocaleDateString('en-GB', {day:'numeric',month,...(year?{year:'numeric'}:{}),timeZone:'UTC'});
+    },
+    summary(start, end) {
+        return `${this.date(start,'long',true)} → ${this.date(end,'long',true)} · ${this.label(start,end)}\nDates selected; confirmation is still required.`;
+    }
+};
+if (typeof module !== 'undefined') module.exports = tribeStayDates;
 /* One calendar UI for public availability and private manual range selection. */
 (() => {
+    if (typeof document === 'undefined') return;
     const root = document.querySelector('[data-calendar]');
     if (!root) return;
     const admin = root.dataset.admin === 'true';
@@ -48,7 +76,7 @@
                 else { end.value=date; selectingEnd=false; }
                 start.dispatchEvent(new Event('change',{bubbles:true}));
                 end.dispatchEvent(new Event('change',{bubbles:true}));
-                message(end.value ? `${label(start.value)} → ${label(end.value)}. ${admin?'Ready to block.':'Dates selected; confirmation is still required.'}` : 'Now choose your checkout date.');
+                message(end.value ? (admin ? `${label(start.value)} → ${label(end.value)}. Ready to block.` : tribeStayDates.summary(start.value,end.value)) : 'Now choose your checkout date.');
                 render();
                 grid.querySelector(`[data-date="${date}"]`)?.focus();
             });
@@ -77,6 +105,7 @@
             const next = parse(start.value); next.setUTCDate(next.getUTCDate()+1); end.min = iso(next);
         }
         if(!admin && loaded && start.value && end.value && overlaps(start.value,end.value)) message('These dates include unavailable nights. Please choose another stay.');
+        else if (!admin && loaded) message(tribeStayDates.nights(start.value,end.value)!==null && start.value>=today ? tribeStayDates.summary(start.value,end.value) : 'Choose check-in, then check-out.');
         render();
     }));
     async function refresh(check=false) {
@@ -92,7 +121,7 @@
             if(start.form?.id==='date-request') start.form.dataset.today=today;
             ranges=data.unavailable;loaded=true;
             if(check && data.valid===false) { message('These dates include unavailable nights. Please choose another stay.'); render();return false; }
-            message(start.value&&end.value?'Dates selected; confirmation is still required.':selectingEnd?'Now choose your checkout date.':'Choose your check-in date.');render();return true;
+            message(tribeStayDates.nights(start.value,end.value)!==null?tribeStayDates.summary(start.value,end.value):selectingEnd?'Now choose your checkout date.':'Choose your check-in date.');render();return true;
         } catch(error) {
             loaded=false;message(failure);render();
             // Retain known blocks during an outage. Never show all dates as available.

@@ -13,6 +13,11 @@ final class AvailabilityDates {
         if ($end <= $start) return 'Check-out needs to be after check-in.';
         return null;
     }
+    public static function nights(string $start, string $end): int {
+        if (!self::date($start) || !self::date($end) || $end <= $start) throw new InvalidArgumentException('Invalid stay dates');
+        $zone = new DateTimeZone('UTC');
+        return (int) (new DateTimeImmutable($start, $zone))->diff(new DateTimeImmutable($end, $zone))->days;
+    }
     public static function overlaps(string $start, string $end, array $block): bool {
         return $start < $block['end'] && $end > $block['start'];
     }

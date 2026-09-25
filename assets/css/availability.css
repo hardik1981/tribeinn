@@ -5,6 +5,7 @@
 .availability-calendar button { background:transparent; color:var(--tribe-green); border:0; border-radius:6px; min-height:44px; }
 .availability-clear { font-size:12px; text-decoration:underline; padding:8px; }
 .availability-status { font-size:12px; line-height:1.5; min-height:36px; margin-block:8px; color:#485442; }
+.dates-page .availability-status { white-space:pre-line; }
 .availability-month-nav button { min-width:44px; font-size:23px; }
 .availability-week,.availability-days { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:2px; }
 .availability-week { text-align:center; font-size:11px; color:#626359; padding-block:8px; }

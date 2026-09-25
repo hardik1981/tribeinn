@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__ . '/availability/Availability.php';
 
 function enquirySession(): void {
     if (session_status() === PHP_SESSION_ACTIVE) return;
@@ -59,7 +60,8 @@ function enquiryMessage(array $data, string $property): string {
         'Name: ' . $data['name'], 'Email: ' . $data['email'],
         ...($data['phone'] !== '' ? ['Phone: ' . $data['phone']] : []),
         '', 'Check-in: ' . $data['checkin'], 'Check-out: ' . $data['checkout'],
-        'Adults: ' . $data['adults'], 'Children: ' . $data['children'],
+        'Number of nights: ' . AvailabilityDates::nights($data['checkin'], $data['checkout']),
+        ((int)$data['adults'] === 1 ? 'Adult: ' : 'Adults: ') . $data['adults'], ((int)$data['children'] === 1 ? 'Child: ' : 'Children: ') . $data['children'],
         'Purpose: ' . $data['purpose'], '', 'Message:', $data['message'] ?: '(No additional message)',
         '', 'This is an enquiry only. Availability has not been confirmed.',
     ]);

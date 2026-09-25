@@ -1,8 +1,17 @@
+const stayDates = typeof module !== 'undefined' ? require('./availability.js') : tribeStayDates;
+function tribeGuestCounts(data) {
+    return [`${data.adults} ${Number(data.adults) === 1 ? 'adult' : 'adults'}`, `${data.children} ${Number(data.children) === 1 ? 'child' : 'children'}`];
+}
+function tribeRequestSummary(data, property) {
+    const year = data.checkin.slice(0,4) !== data.checkout.slice(0,4);
+    return [`${property} · ${stayDates.date(data.checkin,'short',year)} → ${stayDates.date(data.checkout,'short',year)} · ${stayDates.label(data.checkin,data.checkout)}`, tribeGuestCounts(data).join(' · ')];
+}
 function tribeWhatsAppMessage(data, property) {
     return [
         `Hi TribeInn, I'd like to check dates for ${property}.`, '',
         `Name: ${data.name}`, `Check-in: ${data.checkin}`, `Check-out: ${data.checkout}`,
-        `Guests: ${data.adults} adults, ${data.children} children`, `Purpose: ${data.purpose}`,
+        `Number of nights: ${stayDates.nights(data.checkin,data.checkout)}`,
+        `Guests: ${tribeGuestCounts(data).join(', ')}`, `Purpose: ${data.purpose}`,
         ...(data.email ? [`Email: ${data.email}`] : []), ...(data.phone ? [`Phone: ${data.phone}`] : []),
         ...(data.message ? [`Message: ${data.message}`] : [])
     ].join('\n');
@@ -11,7 +20,7 @@ function tribeWhatsAppUrl(number, data, property) {
     if (!/^[1-9]\d{6,14}$/.test(number)) return null;
     return `https://wa.me/${number}?text=${encodeURIComponent(tribeWhatsAppMessage(data, property))}`;
 }
-if (typeof module !== 'undefined') module.exports = { tribeWhatsAppMessage, tribeWhatsAppUrl };
+if (typeof module !== 'undefined') module.exports = { tribeWhatsAppMessage, tribeWhatsAppUrl, tribeRequestSummary };
 
 (() => {
     if (typeof document === 'undefined') return;
@@ -91,7 +100,8 @@ if (typeof module !== 'undefined') module.exports = { tribeWhatsAppMessage, trib
         emailForm.hidden = true;
         emailStatus.hidden = true;
         whatsappStatus.hidden = true;
-        document.querySelector('#dates-request-summary').textContent = `${form.dataset.property} · ${data.checkin} → ${data.checkout} · ${data.adults} adults, ${data.children} children`;
+        const summary = tribeRequestSummary(data, form.dataset.property);
+        document.querySelector('#dates-request-summary').replaceChildren(summary[0], document.createElement('br'), summary[1]);
         bodyOverflow = document.body.style.overflow;
         document.body.style.overflow = 'hidden';
         dialog.showModal();
