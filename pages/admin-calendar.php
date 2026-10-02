@@ -1,3 +1,11 @@
+<?php
+$adminNightLabel = static function (string $start, string $end): string {
+    $nights = AvailabilityDates::nights($start, $end);
+    return $nights . ($nights === 1 ? ' night' : ' nights');
+};
+$adminDateLabel = static fn(string $date): string => str_replace('Sep', 'Sept', (new DateTimeImmutable($date, new DateTimeZone('UTC')))->format('j M Y'));
+$editTotal = !empty($edit['start_date']) && !empty($edit['end_date']) && AvailabilityDates::date($edit['start_date']) && AvailabilityDates::date($edit['end_date']) && $edit['end_date'] > $edit['start_date'] ? $adminNightLabel($edit['start_date'], $edit['end_date']) : '';
+?>
 <main id="main" class="container availability-admin">
     <div class="availability-admin-heading"><div><p class="eyebrow">TribeInn · Private admin</p><h1>Availability calendar</h1><p><?= e($unitName) ?> · Blocked nights, not bookings.</p></div>
     <?php if ($authenticated): ?><form method="post"><input type="hidden" name="csrf" value="<?= e($_SESSION['admin_csrf']) ?>"><button class="text-link" name="action" value="logout">Log out</button></form><?php endif; ?></div>
@@ -17,6 +25,8 @@
             <input type="hidden" name="csrf" value="<?= e($_SESSION['admin_csrf']) ?>"><input type="hidden" name="action" value="save"><input type="hidden" name="id" value="<?= e((string)($edit['id'] ?? '')) ?>">
             <label>Start · first occupied night<input type="date" id="block-start" name="start" value="<?= e($edit['start_date'] ?? '') ?>" <?= $edit ? '' : 'min="' . e($today) . '"' ?> required></label>
             <label>End · checkout, not occupied<input type="date" id="block-end" name="end" value="<?= e($edit['end_date'] ?? '') ?>" min="<?= e($today) ?>" required></label>
+            <p id="block-total" role="status" <?= $editTotal === '' ? 'hidden' : '' ?>><?= $editTotal !== '' ? e('Total: ' . $editTotal) : '' ?></p>
+            <p class="availability-help">Checkout date is not occupied.</p>
             <label>Private reason <span>(optional)</span><textarea name="reason" maxlength="500" rows="3"><?= e($edit['reason'] ?? '') ?></textarea></label>
             <p>Reasons are visible only to admin. Overlapping blocks are allowed; removing one does not remove the others.</p>
             <button class="button" <?= $ranges === null ? 'disabled' : '' ?>><?= !empty($edit['id']) ? 'Save changes' : 'Block dates' ?> →</button>
@@ -25,7 +35,7 @@
     </div>
     <section class="availability-blocks"><h2>Upcoming manual blocks</h2>
     <?php if ($ranges !== null && !$blocks): ?><p>No upcoming manual blocks.</p><?php endif; ?>
-    <?php foreach ($blocks as $block): ?><article class="availability-block"><div><h3><?= e($block['start_date']) ?> → <?= e($block['end_date']) ?></h3><p>End date is not occupied.</p><?php if ($block['reason'] !== ''): ?><p><strong>Private:</strong> <?= e($block['reason']) ?></p><?php endif; ?></div>
+    <?php foreach ($blocks as $block): ?><article class="availability-block"><div><h3><?= e($adminDateLabel($block['start_date'])) ?> → <?= e($adminDateLabel($block['end_date'])) ?> · <?= e($adminNightLabel($block['start_date'], $block['end_date'])) ?></h3><p>Checkout date is not occupied.</p><?php if ($block['reason'] !== ''): ?><p><strong>Private:</strong> <?= e($block['reason']) ?></p><?php endif; ?></div>
         <a class="text-link" href="<?= e(url('admin/calendar?edit=' . $block['id'])) ?>">Edit</a>
         <details><summary>Remove / unblock</summary><form method="post"><input type="hidden" name="csrf" value="<?= e($_SESSION['admin_csrf']) ?>"><input type="hidden" name="action" value="remove"><input type="hidden" name="id" value="<?= e((string)$block['id']) ?>"><label><input type="checkbox" name="confirm" value="yes" required> Remove this manual block?</label><button class="button">Confirm removal</button></form></details>
     </article><?php endforeach; ?></section>

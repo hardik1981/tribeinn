@@ -23,7 +23,15 @@ function tribeWhatsAppUrl(number, data, property) {
     if (!/^[1-9]\d{6,14}$/.test(number)) return null;
     return `https://wa.me/${number}?text=${encodeURIComponent(tribeWhatsAppMessage(data, property))}`;
 }
-if (typeof module !== 'undefined') module.exports = { tribeWhatsAppMessage, tribeWhatsAppUrl, tribeRequestSummary };
+function tribeEmailContinuation(success, number, data, property, result) {
+    const prompt = success.querySelector('#dates-followup');
+    const link = success.querySelector('#dates-followup-link');
+    const url = result.ok === true && result.preview !== true ? tribeWhatsAppUrl(number, data, property) : null;
+    prompt.hidden = !url;
+    if (url) link.href = url;
+    else link.removeAttribute('href');
+}
+if (typeof module !== 'undefined') module.exports = { tribeWhatsAppMessage, tribeWhatsAppUrl, tribeRequestSummary, tribeEmailContinuation };
 
 (() => {
     if (typeof document === 'undefined') return;
@@ -43,6 +51,10 @@ if (typeof module !== 'undefined') module.exports = { tribeWhatsAppMessage, trib
     let busy = false;
     let sent = false;
     let bodyOverflow = '';
+    document.querySelector('#dates-followup-done').addEventListener('click', () => {
+        document.querySelector('#dates-followup').hidden = true;
+        document.querySelector('#dates-success').focus();
+    });
     function values() {
         return Object.fromEntries([...new FormData(form).entries()].map(([key, value]) => [key, value.trim()]));
     }
@@ -166,6 +178,7 @@ if (typeof module !== 'undefined') module.exports = { tribeWhatsAppMessage, trib
         }
         form.elements.email.value = replyEmail.value.trim();
         const payload = new FormData(form);
+        const submittedData = Object.fromEntries(payload.entries());
         busy = true;
         [sendButton,emailChoice,whatsappChoice,dialog.querySelector('.dates-dialog-close'),dialog.querySelector('.dates-edit')].forEach(button => { button.disabled = true; });
         replyEmail.readOnly = true;
@@ -192,6 +205,7 @@ if (typeof module !== 'undefined') module.exports = { tribeWhatsAppMessage, trib
             document.querySelector('#dates-form-content').hidden = true;
             const success = document.querySelector('#dates-success');
             success.hidden = false;
+            tribeEmailContinuation(success, form.dataset.whatsapp, submittedData, form.dataset.property, result);
             if (result.preview === true) {
                 const notice = document.querySelector('#dates-preview-notice');
                 notice.textContent = 'Local test preview only — no email was sent.'; notice.hidden = false;

@@ -26,7 +26,9 @@
                 <button type="submit" class="button dates-continue" disabled>Continue <span aria-hidden="true">→</span></button><p class="dates-next-note">Next: choose email or WhatsApp. Nothing is sent yet.</p>
                 <noscript><p>Please enable JavaScript to choose how to send your request, or email <a href="mailto:contact@tribeinn.com">contact@tribeinn.com</a>.</p></noscript>
             </form></div>
-            <div id="dates-success" class="dates-success" role="status" tabindex="-1" hidden><span class="dates-success-mark" aria-hidden="true">✓</span><p class="eyebrow">A little closer to Goa</p><h2>Request received.</h2><p>We’ll check your dates and get back to you shortly.</p><p class="dates-success-note">Your dates aren’t confirmed yet. We’ll be in touch personally.</p><p id="dates-preview-notice" hidden></p></div>
+            <div id="dates-success" class="dates-success" role="status" tabindex="-1" hidden><span class="dates-success-mark" aria-hidden="true">✓</span><p class="eyebrow">A little closer to Goa</p><h2>Request sent ✓</h2><p>We've received your date request and will get back to you shortly.</p>
+                <div id="dates-followup" hidden><h3>Want to continue on WhatsApp as well?</h3><p>It's usually the easiest way to stay in touch.</p><div class="dates-followup-actions"><a id="dates-followup-link" class="button" target="_blank" rel="noopener noreferrer">Continue on WhatsApp →</a><button id="dates-followup-done" type="button" class="text-link">No thanks, I'm done</button></div></div>
+                <p class="dates-success-note">Your dates aren’t confirmed yet. We’ll be in touch personally.</p><p id="dates-preview-notice" hidden></p></div>
             <p class="dates-disclaimer"><span aria-hidden="true">ⓘ</span><span>This is a date request, not an instant booking.<br><span>We’ll confirm availability with you directly.</span></span></p>
         </section>
     </div>

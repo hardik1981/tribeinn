@@ -49,6 +49,13 @@ if (typeof module !== 'undefined') module.exports = tribeStayDates;
     const nav = root.querySelectorAll('.availability-month-nav button');
     function message(text) { status.textContent = text; }
     function render() {
+        if (admin) {
+            const nights = tribeStayDates.label(start.value,end.value);
+            const total = document.querySelector('#block-total');
+            total.hidden = !nights;
+            total.textContent = nights ? `Total: ${nights}` : '';
+            if (loaded) message(nights ? `${tribeStayDates.date(start.value,'short',true)} → ${tribeStayDates.date(end.value,'short',true)} · ${nights}` : selectingEnd ? 'Now choose your checkout date.' : 'Select a range to block.');
+        }
         root.dataset.verified = loaded ? 'true' : 'false';
         root.querySelector('.availability-legend').hidden = !loaded;
         root.querySelector('h3').textContent = parse(`${month}-01`).toLocaleDateString('en-GB', { month:'long', year:'numeric', timeZone:'UTC' });
