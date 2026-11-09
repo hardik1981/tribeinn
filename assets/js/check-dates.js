@@ -37,6 +37,18 @@ if (typeof module !== 'undefined') module.exports = { tribeWhatsAppMessage, trib
     if (typeof document === 'undefined') return;
     const form = document.querySelector('#date-request');
     if (!form) return;
+    const scrollToCalendar = () => {
+        if (!window.matchMedia('(max-width: 800px)').matches) return;
+        const calendar = document.querySelector('#booking-calendar');
+        const header = document.querySelector('.site-header');
+        window.scrollTo({top:window.scrollY + calendar.getBoundingClientRect().top - (header?.getBoundingClientRect().height || 0) - 16, behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+        calendar.focus({preventScroll:true});
+    };
+    document.querySelector('.inner-mobile-cta')?.addEventListener('click', event => {
+        if (!window.matchMedia('(max-width: 800px)').matches) return;
+        event.preventDefault(); scrollToCalendar();
+    });
+    if (location.hash === '#booking-calendar') window.addEventListener('load',scrollToCalendar,{once:true});
     const dialog = document.querySelector('#dates-dialog');
     const continueButton = form.querySelector('[type="submit"]');
     const errorSummary = document.querySelector('#dates-errors');

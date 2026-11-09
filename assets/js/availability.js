@@ -59,7 +59,7 @@ if (typeof module !== 'undefined') module.exports = tribeStayDates;
         root.dataset.verified = loaded ? 'true' : 'false';
         root.querySelector('.availability-legend').hidden = !loaded;
         root.querySelector('h3').textContent = parse(`${month}-01`).toLocaleDateString('en-GB', { month:'long', year:'numeric', timeZone:'UTC' });
-        nav[0].disabled = month <= today.slice(0, 7);
+        nav[0].disabled = month <= (admin ? '1000-01' : today.slice(0, 7));
         nav[1].disabled = month >= '9999-12';
         const first = parse(`${month}-01`), offset = (first.getUTCDay()+6)%7;
         const count = new Date(Date.UTC(first.getUTCFullYear(), first.getUTCMonth()+1, 0)).getUTCDate();
@@ -75,10 +75,18 @@ if (typeof module !== 'undefined') module.exports = tribeStayDates;
             button.textContent = String(day);
             button.className = [blocked?'is-unavailable':'',past?'is-past':'',selected?'is-selected':'',date===start.value?'is-start':'',date===end.value?'is-end':''].join(' ');
             // A blocked night may be a checkout boundary, but never an occupied night.
-            button.disabled = past || !loaded || (!admin && (selectingEnd ? !validEnd : blocked));
+            button.disabled = !loaded || (admin ? past && !blocked : past || (selectingEnd ? !validEnd : blocked));
             button.setAttribute('aria-label', `${label(date)}${past?', past':blocked?', unavailable night':''}${validEnd && blocked?', checkout only':''}${date===start.value?', check-in selected':date===end.value?', checkout selected':selected?', selected night':''}`);
             button.setAttribute('aria-pressed', selected?'true':'false');
             button.addEventListener('click', () => {
+                if (admin && past) {
+                    const matches = [...document.querySelectorAll('[data-block-start]')].filter(record => date >= record.dataset.blockStart && date < record.dataset.blockEnd);
+                    document.querySelectorAll('[data-block-start]').forEach(record => record.classList.toggle('is-inspected', matches.includes(record)));
+                    message(matches.length ? `${label(date)} · ${matches.length} matching manual record(s) highlighted below.` : 'No manual record for this night.');
+                    matches[0]?.focus();
+                    matches[0]?.scrollIntoView({block:'center'});
+                    return;
+                }
                 if (!selectingEnd || date <= start.value) { start.value=date; end.value=''; selectingEnd=true; }
                 else { end.value=date; selectingEnd=false; }
                 start.dispatchEvent(new Event('change',{bubbles:true}));
@@ -100,7 +108,7 @@ if (typeof module !== 'undefined') module.exports = tribeStayDates;
         if (!(event.key in offsets) || !event.target.dataset.date) return;
         event.preventDefault();
         const date=parse(event.target.dataset.date); date.setUTCDate(date.getUTCDate()+offsets[event.key]);
-        if(iso(date)<today) return;
+        if(iso(date)<(admin?'1000-01-01':today) || iso(date)>'9999-12-31') return;
         month=iso(date).slice(0,7); render();
         const buttons=[...grid.querySelectorAll('button:not(:disabled)')];
         (buttons.find(b=>b.dataset.date===iso(date)) || (offsets[event.key]>0?buttons.find(b=>b.dataset.date>iso(date)):buttons.reverse().find(b=>b.dataset.date<iso(date))))?.focus();

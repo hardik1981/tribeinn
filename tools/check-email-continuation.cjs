@@ -19,7 +19,7 @@ async function scenario(result, httpOk = true) {
     form.elements.namedItem=key=>form.elements[key];
     node('#reply-email').value='reply@example.com';
     let requests=0, verifications=0;
-    const context={module:{exports:{}},require,console,AbortController,setTimeout,clearTimeout,
+    const context={location:{hash:''},module:{exports:{}},require,console,AbortController,setTimeout,clearTimeout,
         document:{querySelector:node,body:{style:{}},createElement:()=>node('created')},
         window:{tribeAvailability:{verify:async()=>{verifications++;return true;}}},
         FormData:class {constructor(form){this.data=Object.entries(form.elements).filter(([,v])=>typeof v==='object').map(([k,v])=>[k,v.value]);} entries(){return this.data[Symbol.iterator]();}},

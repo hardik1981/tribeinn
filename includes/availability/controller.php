@@ -58,10 +58,10 @@ if ($authenticated) {
     try {
         $repository = availabilityRepository($availabilityConfig);
         $unitName = $repository->unit($unit)['name'];
-        $blocks = $repository->manualBlocks($unit, $today);
-        $ranges = (new AvailabilityService([$repository]))->ranges($unit, $today);
+        $blocks = $repository->manualBlocks($unit, '1000-01-01');
+        $ranges = (new AvailabilityService([$repository]))->ranges($unit, '1000-01-01');
         foreach ($blocks as $block) if ((string)$block['id'] === ($_GET['edit'] ?? null)) $edit = $block;
-        if (isset($_GET['edit']) && !$edit) { http_response_code(404); $error = 'This upcoming manual block was not found.'; }
+        if (isset($_GET['edit']) && !$edit) { http_response_code(404); $error = 'This manual block was not found.'; }
     } catch (Throwable $exception) { http_response_code(503); $error = 'Availability could not be loaded. Check the database configuration.'; }
 }
 // Keep valid text after a rejected form submission, without trusting hidden IDs.

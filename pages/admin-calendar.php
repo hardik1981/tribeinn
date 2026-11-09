@@ -19,7 +19,7 @@ $editTotal = !empty($edit['start_date']) && !empty($edit['end_date']) && Availab
     </form>
     <?php else: ?>
     <div class="availability-admin-layout">
-        <section aria-label="Calendar"><div data-calendar data-admin="true" data-today="<?= e($today) ?>" data-month="<?= e(max($_SESSION['admin_month'] ?? '', substr($today, 0, 7))) ?>" data-ranges="<?= e(json_encode($ranges)) ?>" data-start="#block-start" data-end="#block-end"></div><p class="availability-help">Select the first occupied night, then the checkout/end date. All sources appear unavailable here.</p></section>
+        <section aria-label="Calendar"><div data-calendar data-admin="true" data-today="<?= e($today) ?>" data-month="<?= e(max($_SESSION['admin_month'] ?? '', substr($today, 0, 7))) ?>" data-ranges="<?= e(json_encode($ranges)) ?>" data-start="#block-start" data-end="#block-end"></div><p class="availability-help">Select the first occupied night, then the checkout/end date. All sources appear unavailable here. Select a past blocked night to inspect its records below.</p></section>
         <form method="post" class="availability-admin-form" id="block-form">
             <h2><?= !empty($edit['id']) ? 'Edit manual block' : 'Block dates' ?></h2>
             <input type="hidden" name="csrf" value="<?= e($_SESSION['admin_csrf']) ?>"><input type="hidden" name="action" value="save"><input type="hidden" name="id" value="<?= e((string)($edit['id'] ?? '')) ?>">
@@ -33,10 +33,10 @@ $editTotal = !empty($edit['start_date']) && !empty($edit['end_date']) && Availab
             <?php if ($edit): ?><a class="text-link" href="<?= e(url('admin/calendar')) ?>">Cancel editing</a><?php endif; ?>
         </form>
     </div>
-    <section class="availability-blocks"><h2>Upcoming manual blocks</h2>
-    <?php if ($ranges !== null && !$blocks): ?><p>No upcoming manual blocks.</p><?php endif; ?>
-    <?php foreach ($blocks as $block): ?><article class="availability-block"><div><h3><?= e($adminDateLabel($block['start_date'])) ?> → <?= e($adminDateLabel($block['end_date'])) ?> · <?= e($adminNightLabel($block['start_date'], $block['end_date'])) ?></h3><p>Checkout date is not occupied.</p><?php if ($block['reason'] !== ''): ?><p><strong>Private:</strong> <?= e($block['reason']) ?></p><?php endif; ?></div>
-        <a class="text-link" href="<?= e(url('admin/calendar?edit=' . $block['id'])) ?>">Edit</a>
+    <section class="availability-blocks"><h2>Manual blocks · upcoming and history</h2>
+    <?php if ($ranges !== null && !$blocks): ?><p>No manual blocks.</p><?php endif; ?>
+    <?php foreach ($blocks as $block): ?><article class="availability-block" tabindex="-1" data-block-start="<?= e($block['start_date']) ?>" data-block-end="<?= e($block['end_date']) ?>"><div><h3><?= e($adminDateLabel($block['start_date'])) ?> → <?= e($adminDateLabel($block['end_date'])) ?> · <?= e($adminNightLabel($block['start_date'], $block['end_date'])) ?></h3><p>Checkout date is not occupied.</p><?php if ($block['reason'] !== ''): ?><p><strong>Private:</strong> <?= e($block['reason']) ?></p><?php endif; ?></div>
+        <?php if ($block['end_date'] > $today): ?><a class="text-link" href="<?= e(url('admin/calendar?edit=' . $block['id'])) ?>">Edit</a><?php else: ?><span>Historical record</span><?php endif; ?>
         <details><summary>Remove / unblock</summary><form method="post"><input type="hidden" name="csrf" value="<?= e($_SESSION['admin_csrf']) ?>"><input type="hidden" name="action" value="remove"><input type="hidden" name="id" value="<?= e((string)$block['id']) ?>"><label><input type="checkbox" name="confirm" value="yes" required> Remove this manual block?</label><button class="button">Confirm removal</button></form></details>
     </article><?php endforeach; ?></section>
     <?php endif; ?>

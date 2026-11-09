@@ -86,6 +86,7 @@
     .dates-form-panel h1 { font-size: 35px; }
 }
 @media (max-width:800px) {
+    .dates-form-panel { order: -1; }
     .dates-layout { grid-template-columns: 1fr; max-width: 620px; gap: 30px; }
     .dates-editorial { padding-top: 0; }
     .dates-photo { width: 100%; margin: 0 auto; }

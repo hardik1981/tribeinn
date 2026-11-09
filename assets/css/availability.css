@@ -47,3 +47,5 @@
 .availability-admin .text-link { background:transparent; border:0; border-bottom:1px solid; }
 @media(max-width:800px) { .availability-admin-layout { grid-template-columns:1fr; gap:24px; } .availability-admin-heading { align-items:start; } .availability-block { flex-wrap:wrap; } .availability-block>div { flex-basis:100%; } }
 @media(max-width:420px) { .availability-calendar { padding:8px; margin-inline:-8px; } .availability-days { gap:0; } .availability-days button { min-height:44px; } .availability-admin-form { padding:18px; } }
+
+.availability-block.is-inspected { outline: 2px solid var(--tribe-green); outline-offset: 3px; }

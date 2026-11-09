@@ -48,7 +48,7 @@ Overlap means `requested_start < block_end AND requested_end > block_start`. Sam
 
 `units`: id, unique slug, name, active, timestamps.
 
-`availability_blocks`: id, unit_id foreign key, start_date, exclusive end_date, private reason, extensible source, timestamps; composite lookup index. No per-day rows. Admin creates `source=manual` only and cannot edit/remove other sources. Overlapping manual blocks are allowed and merged for display; deleting one does not unblock another overlapping block. An ongoing block may be edited while preserving its past start date; expired blocks are omitted from the upcoming list.
+`availability_blocks`: id, unit_id foreign key, start_date, exclusive end_date, private reason, extensible source, timestamps; composite lookup index. No per-day rows. Admin creates `source=manual` only and cannot edit/remove other sources. Overlapping manual blocks are allowed and merged for display; deleting one does not unblock another overlapping block. An ongoing block may be edited while preserving its past start date; expired blocks remain stored and are included in the authenticated admin history. Past occupied nights can be selected to inspect matching manual records and private reasons. Fully expired edits remain rejected by the existing save rules; removal uses the existing confirmed, CSRF-protected action. Public availability continues to omit expired ranges and reject past arrivals.
 
 ## Public API and enquiry flow
 
